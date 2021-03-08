@@ -1,7 +1,10 @@
 import scrapy
 from ..items import BookscrapeItem
+from scrapy.loader import ItemLoader
+
 
 class BooksSpider(scrapy.Spider):
+    # spiders name to be called
     name = "books"
 
     start_urls = [
@@ -10,18 +13,30 @@ class BooksSpider(scrapy.Spider):
 
     def parse(self, response):
 
-        items = BookscrapeItem()
+        loader = ItemLoader(item=BookscrapeItem(), response=response)
 
-        name        = response.css('#bookTitle::text')[0].extract().strip()
-        author      = response.css("a.authorName>span::text").extract_first()
-        num_ratings = response.css("[itemprop=ratingCount]::attr(content)").extract()
-        num_reviews = response.css("[itemprop=reviewCount]::attr(content)").extract()
-        num_pages   = response.css("span[itemprop=numberOfPages]::text").extract_first().replace(' pages','')
-        
-        items['bookTitle'] = name
-        items['author'] = author
-        items['num_ratings'] = num_ratings
-        items['num_reviews'] = num_reviews
-        items['num_pages'] = num_pages
+        loader.add_css("title", "#bookTitle::text")
+        loader.add_css("author", "a.authorName>span::text")
 
-        yield items
+        loader.add_css("num_ratings", "[itemprop=ratingCount]::attr(content)")
+        loader.add_css("num_reviews", "[itemprop=reviewCount]::attr(content)")
+        loader.add_css("avg_rating", "span[itemprop=ratingValue]::text")
+        loader.add_css("num_pages", "span[itemprop=numberOfPages]::text")
+
+        loader.add_css("language", "div[itemprop=inLanguage]::text")
+        loader.add_css("publish_date", "div.row::text")
+        loader.add_css("first_publish_date", "nobr.greyText::text")
+
+        loader.add_css("series", 'h2#bookSeries>a.greyText::text')
+        # loader.add_css("series", 'div.InfoBoxRowItem>a[href*="/series/"]::text')
+        loader.add_css("characters", 'a[href*="/characters/"]::text')
+        loader.add_css("places", 'a[href*="/places/"]::text')
+        loader.add_css("awards", 'a.award::text')
+
+        loader.add_css("genres", 'a[href*="/genres/"]::text')
+        loader.add_css("isbn13", 'span[itemprop=isbn]::text')
+        loader.add_css("isbn", 'div.infoBoxRowItem::text')
+
+        loader.add_css("ratings",'script[type*="protovis"]::text')
+
+        yield loader.load_item()
