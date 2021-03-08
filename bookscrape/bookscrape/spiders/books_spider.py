@@ -6,15 +6,16 @@ from scrapy.loader import ItemLoader
 class BooksSpider(scrapy.Spider):
     # spiders name to be called
     name = "books"
-
-    start_urls = [
-        'https://www.goodreads.com/book/show/1'
-        ]
+    bookId = 1
+    start_id = 1
+    end_id = 10
+    start_urls = ['https://www.goodreads.com/book/show/1']
 
     def parse(self, response):
 
         loader = ItemLoader(item=BookscrapeItem(), response=response)
 
+        loader.add_value('bookId', str(BooksSpider.bookId))
         loader.add_css("title", "#bookTitle::text")
         loader.add_css("author", "a.authorName>span::text")
 
@@ -40,3 +41,9 @@ class BooksSpider(scrapy.Spider):
         loader.add_css("ratings",'script[type*="protovis"]::text')
 
         yield loader.load_item()
+
+        BooksSpider.bookId += 1
+        next_page = 'https://www.goodreads.com/book/show/'+str(BooksSpider.bookId)
+        if BooksSpider.bookId <= BooksSpider.end_id:
+            yield response.follow(next_page, callback=self.parse)
+

@@ -56,6 +56,7 @@ def extract_ratings(txt):
     return ratings
 
 class BookscrapeItem(scrapy.Item):
+    bookId = scrapy.Field()
     title       = scrapy.Field(input_processor=MapCompose(str.strip))
     author      = scrapy.Field(input_processor=MapCompose(str.strip))
     num_ratings = scrapy.Field(input_processor=MapCompose(str.strip, int))
