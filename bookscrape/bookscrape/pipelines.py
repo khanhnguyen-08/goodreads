@@ -20,6 +20,7 @@ class BookscrapePipeline:
         self.collection = db['books_tb']
 
     def process_item(self, item, spider):
+
         # set default values for each feature
         item.setdefault('title', 'Null')
         item.setdefault('author', 'Null')
@@ -45,5 +46,5 @@ class BookscrapePipeline:
         item.setdefault('description', 'Null')
 
         self.collection.insert(dict(item))
-        return item
+        # return item
 
