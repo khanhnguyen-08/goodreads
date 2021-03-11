@@ -11,6 +11,7 @@ import pymongo
 class BookscrapePipeline:
 
     def __init__(self):
+        # MongoDB connection
         self.conn = pymongo.MongoClient(
             'localhost',
             27017
@@ -19,6 +20,7 @@ class BookscrapePipeline:
         self.collection = db['books_tb']
 
     def process_item(self, item, spider):
+        # set default values for each feature
         item.setdefault('title', 'Null')
         item.setdefault('author', 'Null')
         item.setdefault('num_ratings', 'Null')
@@ -40,8 +42,8 @@ class BookscrapePipeline:
         item.setdefault('rated_3', 'Null')
         item.setdefault('rated_2', 'Null')
         item.setdefault('rated_1', 'Null')
+        item.setdefault('description', 'Null')
 
         self.collection.insert(dict(item))
-        # print("5*: "+str(item['rated_5'][0])+"\n4*: "+ str(item['rated_4'][0]) +"\n3*: "+ str(item['rated_3'][0]) +"\n2*: "+ str(item['rated_2'][0]) +"\n1*: "+ str(item['rated_1'][0]))
         return item
 

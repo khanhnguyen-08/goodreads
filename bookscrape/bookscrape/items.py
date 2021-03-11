@@ -121,5 +121,8 @@ class BookscrapeItem(scrapy.Item):
     rated_2 = scrapy.Field(input_processor=MapCompose(extract_rated_2))
     rated_1 = scrapy.Field(input_processor=MapCompose(extract_rated_1))
 
+    # Extract description
+    description = scrapy.Field(input_processor=MapCompose(str.strip))
+
 
     pass

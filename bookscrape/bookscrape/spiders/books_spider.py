@@ -7,7 +7,7 @@ class BooksSpider(scrapy.Spider):
     # spiders name to be called
     name = "books"
     start_id = 1
-    end_id = 10
+    end_id = 5
     bookId = start_id
     start_urls = ['https://www.goodreads.com/book/show/'+str(start_id)]
 
@@ -49,6 +49,8 @@ class BooksSpider(scrapy.Spider):
             loader.add_css("rated_3",'script[type*="protovis"]::text')
             loader.add_css("rated_2",'script[type*="protovis"]::text')
             loader.add_css("rated_1",'script[type*="protovis"]::text')
+
+            loader.add_css("description", 'div#description>span::text')
 
             yield loader.load_item()
         
