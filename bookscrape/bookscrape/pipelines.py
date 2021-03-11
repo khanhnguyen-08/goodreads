@@ -11,8 +11,9 @@ import mysql.connector
 class BookscrapePipeline:
 
     def __init__(self):
-        self.create_connection()
-        self.create_table()
+        # self.create_connection()
+        # self.create_table()
+        pass
     
     def create_connection(self):
         self.conn = mysql.connector.connect(
@@ -99,7 +100,7 @@ class BookscrapePipeline:
         item.setdefault('rated_2', 'Null')
         item.setdefault('rated_1', 'Null')
 
-        self.store_db(item)
+        # self.store_db(item)
         # print(item['bookId'],item['title'], item['author'], item['num_ratings'],
         #     item['num_reviews'], item['num_pages'], item['avg_rating'], item['language'], item['publish_date'],
         #     item['first_publish_date'], item['series'], item['characters'], item['places'],
@@ -107,5 +108,5 @@ class BookscrapePipeline:
 
         # print("5*: "+str(item['rated_5'][0])+"\n4*: "+ str(item['rated_4'][0]) +"\n3*: "+ str(item['rated_3'][0]) +"\n2*: "+ str(item['rated_2'][0]) +"\n1*: "+ str(item['rated_1'][0]))
 
-        # return item
+        return item
 
