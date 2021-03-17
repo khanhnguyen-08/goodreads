@@ -6,7 +6,7 @@ from scrapy.loader import ItemLoader
 class BooksSpider(scrapy.Spider):
     # spiders name to be called
     name = "books"
-    start_id = 17398
+    start_id = 17663
     end_id = 20000
     bookId = start_id
     start_urls = ['https://www.goodreads.com/book/show/'+str(start_id)]
