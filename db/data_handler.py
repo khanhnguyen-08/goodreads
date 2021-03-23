@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-data = pd.read_csv('/home/justin/Documents/goodreads/db/books_tb_csv')
+data = pd.read_csv('/home/justin/Documents/goodreads/db/books_csv_23-3')
 data = data.drop('_id', axis=1)
 print(data.shape)
 print(data.columns)
@@ -60,4 +60,4 @@ print(data[m_cat_attribs].describe())
 print(data.describe(include='all'))
 ordered_cols = ['bookId', 'title', 'author', 'series', 'description', 'genres', 'awards', 'characters', 'places', 'isbn', 'isbn13', 'language', 'first_publish_date', 
                 'publish_date', 'num_pages', 'num_ratings', 'num_reviews', 'avg_rating', 'rated_1', 'rated_2', 'rated_3', 'rated_4', 'rated_5']
-data[ordered_cols].to_excel("Goodreads's Books.xlsx")
+data[ordered_cols].to_csv("Goodreads's Books.csv")
